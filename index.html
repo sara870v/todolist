@@ -12,7 +12,7 @@
 
     <h2>This is an online to do list, where you can add a person, tasks and how much time left to do it</h2>
     <br />
-    <form>
+    <form id="addform">
       <div class="first">
         <section class="names">
           <label for="name">Name</label>
@@ -30,7 +30,26 @@
       <input type="submit" value="Submit" />
     </form>
 
-    <!-- <button>Add new hero</button> -->
+    <form id="editform">
+      <div class="first">
+        <section class="names">
+          <label for="name">Name</label>
+          <input type="text" name="name" size="25" placeholder="Sarah Davidsen" required />
+
+          <label for="tasks">Tasks</label>
+          <input type="text" name="tasks" size="25" placeholder="Haircut" required />
+
+          <label for="time">Time left(in days)</label>
+          <input type="number" name="time" size="25" placeholder="3" required />
+
+          <input type="hidden" name="id" />
+        </section>
+      </div>
+      <br />
+
+      <input type="submit" value="Submit" />
+    </form>
+
     <div class="app">
       <template>
         <article class="list">
@@ -38,6 +57,7 @@
           <h2></h2>
           <p></p>
           <button>Finished</button>
+          <!-- <button class="secondbtn">Edit task</button> -->
         </article>
       </template>
     </div>

@@ -1,8 +1,14 @@
-const form = document.querySelector("form");
+const form = document.querySelector("form#addform");
+const formedit = document.querySelector("form#editform");
 form.addEventListener("submit", evt => {
   console.log(evt);
   evt.preventDefault();
   post();
+});
+formedit.addEventListener("submit", evt => {
+  console.log(evt);
+  evt.preventDefault();
+  put();
 });
 
 function get() {
@@ -29,12 +35,36 @@ function addHereToTheDom(list) {
   copy.querySelector("p").textContent = list.time + " days";
   copy.querySelector("button").addEventListener("click", () => {
     deleteIt(list._id);
-    // console.log(hero._id);
   });
+
+  //   copy.querySelector("button.secondbtn").addEventListener("click", () => {
+  //     fetchAndPopulate(list._id);
+  // document.querySelector("#editform").className = "display";
+  //   });
+
   document.querySelector(".app").prepend(copy);
 }
 
 get();
+
+function fetchAndPopulate(id) {
+  fetch(`https://todolist-8cdd.restdb.io/rest/todolost/${id}`, {
+    method: "get",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "x-apikey": "5d90d71c1ce70f637985513f",
+      "cache-control": "no-cahce"
+    }
+  })
+    .then(e => e.json())
+    .then(lists => {
+      console.log(lists);
+      formedit.elements.name.value = lists.name;
+      formedit.elements.tasks.value = lists.tasks;
+      formedit.elements.time.value = lists.time;
+      formedit.elements.id.value = lists._id;
+    });
+}
 
 function post() {
   const data = {
@@ -59,6 +89,34 @@ function post() {
       addHereToTheDom(data);
     });
 }
+
+// function put() {
+//   const data = {
+//     name: formedit.elements.name.value,
+//     tasks: formedit.elements.tasks.value,
+//     time: formedit.elements.time.value
+//   };
+
+//   const postData = JSON.stringify(data);
+//   const superID = formedit.elements.id.value;
+
+//   fetch("https://todolist-8cdd.restdb.io/rest/todolost/" + superID, {
+//     method: "put",
+//     headers: {
+//       "Content-Type": "application/json; charset=utf-8",
+//       "x-apikey": "5d90d71c1ce70f637985513f",
+//       "cache-control": "no-cache"
+//     },
+//     body: postData
+//   })
+//     .then(res => res.json())
+//     .then(updatedList => {
+//       const parentElement = document.querySelector(`.list[data-listid="${updatedList._id}"]`);
+
+//       parentElement.querySelector("h1").textContent = updatedList.name;
+//       parentElement.querySelector("h2").textContent = updatedList.tasks;
+//       parentElement.querySelector("p").textContent = updatedList.time;
+//     });
 
 function deleteIt(id) {
   console.log(id);
